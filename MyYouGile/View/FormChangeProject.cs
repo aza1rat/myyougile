@@ -213,6 +213,12 @@ namespace MyYouGile
         }
         private void ButtonProjectDelete_Click(object sender, EventArgs e)
         {
+            Assignment assignmentForDelete = Helper.ModelDB.Assignment.Where(assign =>
+            assign.AssignmentProject == currentProject.ProjectID &&
+            assign.User.Role.RoleName == Helper.Role.Разработчик.ToString() &&
+            assign.AssignmentUserIsCommited == true).FirstOrDefault();
+            if (assignmentForDelete == null)
+                return;
             Helper.ModelDB.Project.Remove(currentProject);
             Helper.ModelDB.SaveChanges();
         }
